@@ -8,15 +8,16 @@ This mapfile will render OS Openmap vector using the OS Full Colour style. In or
 
 The mapfile uses the land polygons from the vector_district open data in order to mask out the base mapcolour of blue which is done to ensure that the sea renders properly. It retrieves all data from a postgis database but you can change this to render from shapefiles directly by replacing the lines :-
 
-   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
-   CONNECTIONTYPE POSTGIS
-   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_vector_district.land)  AS FOO USING UNIQUE ogc_fid using srid=27700"
 
-with
+CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+CONNECTIONTYPE POSTGIS
+DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_vector_district.land)  AS FOO USING UNIQUE ogc_fid using srid=27700"
 
-   CONNECTIONTYPE OGR
-   CONNECTION "PATH TO YOUR SHAPEFILE"
-   DATA "modified query to replicate SQL as stated in mapfile but using shapefile attributes"
+with:-
+
+CONNECTIONTYPE OGR
+CONNECTION "PATH TO YOUR SHAPEFILE"
+DATA "modified query to replicate SQL as stated in mapfile but using shapefile attributes"
 
 The ordering query used for the roads table will not work as it uses a custom postgres function. You may have to use separate OGR layers to replicate this.
 
