@@ -38,7 +38,8 @@ We loaded our data into POSTGIS two stages:-
 
 * combine all OS shapefiles into a single shapefile
 
-     cd <directory where your shapefiles reside>
+     cd [directory where your shapefiles reside]
+     
      perl merge_shape_files.pl .
 
 * load data using ogr2ogr
