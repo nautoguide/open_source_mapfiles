@@ -1,0 +1,1479 @@
+
+# THIS IS NECESSARY TO MASK OUT THE DEFAULT WATER COLOR SET ABOVE #
+  LAYER
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "vector_district_land_polygon"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_vector_district.land)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       MAXSCALEDENOM 10000
+       MINSCALEDENOM 1000
+       STYLE
+           COLOR 255 255 255
+       END
+   END
+  END
+
+##WOODLAND##
+  
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_woodland"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.woodland)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   
+   CLASS
+       STYLE
+           COLOR "#D1F0CE"
+       END
+   END
+END
+
+##TIDAL WATER##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_surface_tidalwater"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.tidalwater)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR "#D5F4F8"
+       END
+   END
+END
+
+##SURFACEWATER AREA##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_surfacewater_area"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.surfacewater_area)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR 213 244 248
+       END
+   END
+END
+
+##FORESHORE##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_foreshore"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.foreshore)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR "#E6EbE4"
+       END
+   END
+END
+
+##BUILDINGS##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_surface_building"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.building)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR "#FEDEB7"
+       END
+   END
+END
+
+##FUNCTIONAL SITE##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 5
+   NAME "openmap_surface_functionalsite"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,CASE WHEN DISTNAME LIKE '%School%' THEN 'School' WHEN DISTNAME LIKE '%College%' THEN 'College' WHEN DISTNAME LIKE '%University Hospital%' THEN 'Hospital' WHEN DISTNAME LIKE '%University%' THEN 'University' WHEN DISTNAME LIKE '%Hospital%' THEN 'Hospital' WHEN CLASSIFICA = 'Bus Station' THEN 'Bus Station' WHEN CLASSIFICA = 'Coach Station' THEN 'Coach Station' WHEN CLASSIFICA LIKE '%Railway%' THEN '' ELSE  DISTNAME END AS label,sitetheme,distname FROM mapping_os_opendata_openmap.functionalsite)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   SIZEUNITS METERS
+   CLASS
+       EXPRESSION ("[sitetheme]" = "Air Transport")
+       STYLE
+           COLOR "#FFFF7F"
+           OUTLINECOLOR "#848000"
+           WIDTH 2
+           LINEJOIN bevel
+       END
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         OUTLINEWIDTH 4
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbd"
+         PARTIALS FALSE
+         TEXT ("[label]")
+       END
+   END
+   CLASS
+       EXPRESSION ("[sitetheme]" = "Education")
+       STYLE
+           COLOR  "#DB7FFF"
+           OUTLINECOLOR "#7900B2" 
+           WIDTH 2
+           LINEJOIN bevel
+       END
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         OUTLINEWIDTH 4
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbd"
+         PARTIALS FALSE
+         TEXT ("[label]")
+       END
+   END
+  CLASS
+       EXPRESSION ("[sitetheme]" = "Medical Care")
+       STYLE
+           COLOR "#7FFF88"
+           OUTLINECOLOR "#007F06"
+           WIDTH 2
+           LINEJOIN bevel
+       END
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         OUTLINEWIDTH 4
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbd"
+         PARTIALS FALSE
+         TEXT ("[label]")
+       END
+   END
+  CLASS
+       EXPRESSION ("[sitetheme]" = "Road Transport")
+       STYLE
+           COLOR "#FF8A7F"
+           OUTLINECOLOR "#96241E"
+           WIDTH 2
+           LINEJOIN bevel
+       END
+       LABEL
+         #MAXSCALEDENOM 2500
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         OUTLINEWIDTH 4
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbd"
+         PARTIALS FALSE
+         TEXT ("[label]")
+       END
+   END
+   CLASS
+       EXPRESSION ("[sitetheme]" = "Water Transport")
+       STYLE
+           COLOR "#7FA8FF"
+           OUTLINECOLOR "#1A498E"
+           WIDTH 2
+           LINEJOIN bevel
+       END
+       LABEL
+         #MAXSCALEDENOM 2500
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         OUTLINEWIDTH 4
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbd"
+         PARTIALS FALSE
+         TEXT ("[label]")
+       END
+   END
+  
+END
+
+## IMPORTANT BUILDINGS ##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_important_buildings"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.importantbuilding)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR 254 222 183
+           OUTLINECOLOR 72 64 60
+       END
+   END
+END
+
+##GLASSHOUSE##
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POLYGON
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_glasshouse"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.glasshouse)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+       STYLE
+           COLOR 142 200 25
+           OUTLINECOLOR 72 64 60
+       END
+   END
+END
+
+##TIDAL BOUNDARYS##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_tidalboundary"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,featcode FROM mapping_os_opendata_openmap.tidalboundary)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+      NAME "High Water Mark"
+      EXPRESSION ([featcode] =15604)
+       STYLE
+            COLOR "#00A9CA"
+            WIDTH 2.75
+            LINEJOIN bevel
+            LINECAP square
+       END
+   END
+   CLASS
+      NAME "Low Water Mark"
+      EXPRESSION ([featcode] =15605)
+       STYLE
+           COLOR "#00A9CA"
+            WIDTH 1
+            LINEJOIN bevel
+            LINECAP square
+       END
+   END
+END
+
+## SURFACE WATER LINE ##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_surfacewater_line"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.surfacewater_line)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+    
+       STYLE
+            COLOR "#00A9CA"
+            WIDTH 1.5
+            LINEJOIN bevel
+            LINECAP square
+       END
+   END
+END
+
+##ROAD TUNNEL##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_roadtunnel"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.roadtunnel)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASS
+    
+       STYLE
+            COLOR 80 80 80
+            WIDTH 1.5
+            PATTERN
+              5.0 5.0
+            END
+       END
+   END
+END
+
+##ROUNDABOUTS CASE##
+LAYER
+    MAXSCALEDENOM 10000
+    MINSCALEDENOM 1000
+    CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,classifica FROM mapping_os_opendata_openmap.roundabout)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+    DEBUG 5
+    GROUP "openmap"
+    NAME "roundabouts_case"
+    STATUS ON
+    TYPE POINT
+    SIZEUNITS METERS
+    CLASSITEM 'classifica'
+
+    CLASS
+
+      STYLE
+        COLOR 80 80 80
+        SIZE 39
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END
+    END 
+  END 
+
+## ROADS ##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 5
+   NAME "openmap_roads"
+   SIZEUNITS meters
+   METADATA
+      "ows_include_items" "all"
+      "WMS_TITLE" "Openmap Roads"
+    END # METADATA
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,classifica,roadnumber,upper(distname) as distname FROM mapping_os_opendata_openmap.road ORDER BY idx(array['Pedestrianised Street','Private Road Publicly Accessible','Local Street','Minor Road, Collapsed Dual Carriageway','Minor Road','B Road, Collapsed Dual Carriageway','B Road','A Road, Collapsed Dual Carriageway','A Road','Primary Road, Collapsed Dual Carriageway','Primary Road','Motorway, Collapsed Dual Carriageway','Motorway'],classifica::TEXT) ASC)  AS FOO USING UNIQUE ogc_fid desc using srid=27700"
+   CLASSITEM 'classifica'
+
+    CLASS
+      NAME "Pedestrianised Street"
+      EXPRESSION 'Pedestrianised Street'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#FFFFFF"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END 
+   CLASS
+      NAME "Private Road Publicly Accessible"
+      EXPRESSION 'Private Road Publicly Accessible'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#FFFFFF"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END  
+    END 
+    CLASS
+      NAME "Local Street"
+      EXPRESSION 'Local Street'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL
+      STYLE
+         COLOR "#FFFFFF"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+       END 
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END
+    END
+    CLASS
+      NAME "Minor Road, Collapsed Dual Carriageway"
+      EXPRESSION 'Minor Road, Collapsed Dual Carriageway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#FFF3B5"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+       END 
+       ###CENTRE LINE##
+      STYLE
+         COLOR "#505050"
+         WIDTH 1
+         LINEJOIN round
+         LINECAP round
+      END
+       ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END 
+    END
+    CLASS
+      NAME "Minor Road"
+      EXPRESSION 'Minor Road'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL
+      STYLE
+         COLOR "#FFF3B5"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END 
+    END
+    CLASS
+      NAME "B Road, Collapsed Dual Carriageway"
+      EXPRESSION 'B Road, Collapsed Dual Carriageway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL
+      STYLE
+         COLOR "#FFC073"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+       END
+        ###CENTRE LINE##
+      STYLE
+         COLOR "#505050"
+         WIDTH 1
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 214 133 34
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END   
+    END 
+    CLASS
+      NAME "B Road"
+      EXPRESSION 'B Road'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#FFC073"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 214 133 34
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END    
+    END
+    CLASS
+      NAME "A Road, Collapsed Dual Carriageway"
+      EXPRESSION 'A Road, Collapsed Dual Carriageway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#FF879E"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+       END 
+      ###CENTRE LINE##
+      STYLE
+         COLOR "#505050"
+         WIDTH 1
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 212 28 64
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END    
+    END
+    CLASS
+      NAME "A Road"
+      EXPRESSION 'A Road'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL#
+      STYLE
+         COLOR "#FF879E"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+       END
+      ##LABEL##
+      LABEL
+        SIZE 10
+        COLOR 212 28 64
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END  
+    END
+    CLASS
+      NAME "Primary Road, Collapsed Dual Carriageway"
+      EXPRESSION 'Primary Road, Collapsed Dual Carriageway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL#
+      STYLE
+         COLOR "#37C35B"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END 
+      ###CENTRE LINE##
+      STYLE
+         COLOR "#FFFFFF"
+         WIDTH 1
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 0 166 41
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END   
+    END
+    CLASS
+      NAME "Primary Road"
+      EXPRESSION 'Primary Road'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#37C35B"
+         WIDTH 12 #NOTE USED IN CONJUCTION WITH SIZEUNITS
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 0 166 41
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 250
+        MINFEATURESIZE 150
+      END    
+    END
+    CLASS
+      NAME "Motorway, Collapsed Dual Carriageway"
+      EXPRESSION 'Motorway, Collapsed Dual Carriageway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#06B1CA"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END 
+      ###CENTRE LINE##
+      STYLE
+         COLOR "#FFFFFF"
+         WIDTH 1
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 0 159 184
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]'')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END    
+    END
+    CLASS
+      NAME "Motorway"
+      EXPRESSION 'Motorway'
+      ##CASE##
+      STYLE
+        COLOR "#505050"
+        WIDTH 17
+      END
+      ##FILL##
+      STYLE
+         COLOR "#06B1CA"
+         WIDTH 12
+         LINEJOIN round
+         LINECAP round
+      END
+      ##LABEL##
+      LABEL
+        SIZE 15
+        COLOR 0 159 184
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION CC
+        TYPE TRUETYPE
+        FONT 'opensansbd'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[roadnumber]')
+        MINDISTANCE 150
+        MINFEATURESIZE 150
+      END     
+    END  
+                                     
+END
+
+##ROUNDABOUTS FILL##
+LAYER
+    MAXSCALEDENOM 10000
+    MINSCALEDENOM 1000
+    CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,classifica FROM mapping_os_opendata_openmap.roundabout)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+    DEBUG 5
+    GROUP "openmap"
+    NAME "roundabouts_fill"
+    STATUS ON
+    TYPE POINT
+    SIZEUNITS METERS
+    CLASSITEM 'classifica'
+
+    CLASS
+      EXPRESSION 'Primary Road'
+      ##FILL 1
+      STYLE
+        COLOR "#505050"
+        SIZE 35
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+      ##FILL 2
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 80 80 80
+        WIDTH 2
+        SIZE 10
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+    END 
+
+    CLASS
+      EXPRESSION 'A Road'
+      ##FILL 1
+      STYLE
+        COLOR "#FF879E"
+        SIZE 35
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+      ##FILL 2
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 80 80 80
+        WIDTH 2
+        SIZE 10
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+    END 
+
+    CLASS
+      EXPRESSION 'B Road'
+      ##FILL 1
+      STYLE
+        COLOR "#FFC073"
+        SIZE 35
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+      ##FILL 2
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 80 80 80
+        WIDTH 2
+        SIZE 10
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+    END 
+
+    CLASS
+      EXPRESSION 'Local Street'
+      ##FILL 1
+      STYLE
+        COLOR 255 255 255
+        SIZE 35
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+      ##FILL 2
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 80 80 80
+        #OUTLINEWIDTH 5
+        WIDTH 2
+        SIZE 10
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+    END 
+
+    CLASS
+      EXPRESSION 'Minor Road'
+      ##FILL 1
+      STYLE
+        COLOR "#FFF3B5"
+        SIZE 35
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+      ##FILL 2
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 80 80 80
+        WIDTH 2
+        SIZE 10
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END 
+    END 
+  END 
+
+##RAILWAYTUNNEL##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_railwaytunnel"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.railwaytunnel)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   SIZEUNITS METERS
+   CLASS
+    
+       STYLE
+            COLOR 80 80 80
+            WIDTH 1.5
+            PATTERN
+              5.0 5.0
+            END
+       END
+   END
+END
+
+##RAILWAYTRACK##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_railwaytrack"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,classifica FROM mapping_os_opendata_openmap.railwaytrack)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   CLASSITEM 'classifica'
+   SIZEUNITS METERS
+   CLASS
+       EXPRESSION 'Multi Track'
+       STYLE
+            COLOR 80 80 80
+            WIDTH 3.0
+       END
+   END
+   CLASS
+       EXPRESSION 'Narrow Gauge'
+       STYLE
+            COLOR 80 80 80
+            WIDTH 2.5
+       END
+   END
+   CLASS
+       EXPRESSION 'Single Track'
+       STYLE
+            COLOR 80 80 80
+            WIDTH 2.5
+       END
+   END
+END
+
+##ELECTRICITY TRANSMISSION LINE ##
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE LINE
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_electricity_transmissionline"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_openmap.electrictytransmissionline)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   SIZEUNITS METERS
+   CLASS
+    
+       STYLE
+            COLOR 178 184 173
+            WIDTH 2
+            LINECAP square
+            PATTERN
+              5.0 3.0
+            END
+       END
+   END
+END
+
+##RAILWAY STATION##
+LAYER
+    MAXSCALEDENOM 10000
+    MINSCALEDENOM 1000
+    CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,classifica,distname FROM mapping_os_opendata_openmap.railwaystation)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+    DEBUG 5
+    GROUP "openmap"
+    NAME "openmap_railway_station"
+    STATUS ON
+    TYPE POINT
+    SIZEUNITS METERS
+    CLASSITEM 'classifica'
+
+    CLASS
+      EXPRESSION /^Light.*/
+      ##CASE
+      STYLE
+        COLOR 243 243 0
+        OUTLINECOLOR 80 80 80
+        WIDTH 4
+        SIZE 30
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END
+    END 
+     CLASS
+      EXPRESSION /.*/
+      ##CASE
+      STYLE
+        COLOR 255 60 140
+        OUTLINECOLOR 80 80 80
+        #OUTLINEWIDTH 10
+        WIDTH 4
+        SIZE 30
+        SYMBOL "sld_mark_symbol_circle_filled"
+      END
+      LABEL
+        SIZE 24
+        COLOR 80 80 80 
+        OUTLINECOLOR 255 255 255
+        OUTLINEWIDTH 2 
+        POSITION lc
+        OFFSET 0 2
+        TYPE TRUETYPE
+        FONT 'ariali'
+        ANGLE FOLLOW
+        BUFFER 2
+        PARTIALS FALSE
+        TEXT ('[distname]')
+      END
+    END 
+  END 
+
+##MOTORWAY JUNCTION ##
+LAYER
+    MAXSCALEDENOM 10000
+    MINSCALEDENOM 1000
+    CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,junctnum FROM mapping_os_opendata_openmap.motorwayjunction)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+    DEBUG 5
+    GROUP "openmap"
+    NAME "openmap_motorway_junction"
+    STATUS ON
+    TYPE POINT
+    SIZEUNITS METERS
+
+    CLASS
+      LABEL
+        SIZE 24
+        COLOR 255 255 255
+        POSITION AUTO
+        TYPE TRUETYPE
+        FONT 'arialbd'
+        PARTIALS FALSE
+        TEXT ('[junctnum]')
+        STYLE
+          GEOMTRANSFORM 'labelpoly'
+          COLOR 255 255 255
+          OFFSET 3 2
+        END # STYLE
+        STYLE
+          GEOMTRANSFORM 'labelpoly'
+          COLOR 0 159 184
+          OUTLINECOLOR 0 159 184
+          WIDTH 3
+        END # STYLE
+      END
+    END 
+  END 
+
+##NAMED PLACE ##
+
+LAYER
+   MAXSCALEDENOM 10000
+   MINSCALEDENOM 1000
+   TYPE POINT
+   STATUS ON
+   GROUP "openmap"
+   DEBUG 1
+   NAME "openmap_namedplace"
+   PROJECTION
+       "init=epsg:27700"
+   END
+   CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid,orientatio,fontheight,classifica,distname FROM mapping_os_opendata_openmap.namedplace)  AS FOO USING UNIQUE ogc_fid using srid=27700"
+   LABELITEM distname
+   SIZEUNITS METERS
+   ## POPULATED PLACE ##
+   CLASS
+       NAME "Pop Font small"
+       EXPRESSION (('[classifica]' = 'Populated Place') AND ('[fontheight]' = 'Small'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 22
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Pop Font medium"
+       EXPRESSION (('[classifica]' = 'Populated Place') AND ('[fontheight]' = 'Medium'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 30
+         TYPE TRUETYPE
+          FONT "arialbd"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Pop Font large"
+       EXPRESSION (('[classifica]' = 'Populated Place') AND ('[fontheight]' = 'Large'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 50
+         TYPE TRUETYPE
+          FONT "arialbd"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+
+   ## HYDROGRAPHY ##
+   CLASS
+       NAME "Hydro Font small"
+       EXPRESSION (('[classifica]' = 'Hydrography') AND ('[fontheight]' = 'Small'))
+       LABEL
+         COLOR 0 154 207
+         OUTLINECOLOR 255 255 255
+         SIZE 22
+         TYPE TRUETYPE
+          FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Hydro Font medium"
+       EXPRESSION (('[classifica]' = 'Hydrography') AND ('[fontheight]' = 'Medium'))
+       LABEL
+         COLOR 0 154 207
+         OUTLINECOLOR 255 255 255
+         SIZE 25
+         TYPE TRUETYPE
+          FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Hydro Font large"
+       EXPRESSION (('[classifica]' = 'Hydrography') AND ('[fontheight]' = 'Large'))
+       LABEL
+         COLOR 0 154 207
+         OUTLINECOLOR 255 255 255
+         SIZE 28
+         TYPE TRUETYPE
+          FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+
+   ## LANDCOVER ####
+      CLASS
+       NAME "LANDCOVER Font small"
+       EXPRESSION (('[classifica]' = 'Landcover') AND ('[fontheight]' = 'Small'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 22
+         TYPE TRUETYPE
+          FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "LANDCOVER Font medium"
+       EXPRESSION (('[classifica]' = 'Landcover') AND ('[fontheight]' = 'Medium'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "LANDCOVER Font large"
+       EXPRESSION (('[classifica]' = 'Landcover') AND ('[fontheight]' = 'Large'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 28
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+
+  ## LANDFORM ####
+      CLASS
+       NAME "Landform Font small"
+       EXPRESSION (('[classifica]' = 'Landform') AND ('[fontheight]' = 'Small'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 22
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Landform Font medium"
+       EXPRESSION (('[classifica]' = 'Landform') AND ('[fontheight]' = 'Medium'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 25
+         TYPE TRUETYPE
+        FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Landform Font large"
+       EXPRESSION (('[classifica]' = 'Landform') AND ('[fontheight]' = 'Large'))
+       LABEL
+         COLOR 80 80 80
+         OUTLINECOLOR 255 255 255
+         SIZE 28
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+
+ ## WOODLAND ####
+  CLASS
+       NAME "Woodland Or Forest Font small"
+       EXPRESSION (('[classifica]' = 'Woodland Or Forest') AND ('[fontheight]' = 'Small'))
+       LABEL
+         COLOR 63 143 54
+         OUTLINECOLOR 255 255 255
+         SIZE 22
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Woodland Or Forest Font medium"
+       EXPRESSION (('[classifica]' = 'Woodland Or Forest') AND ('[fontheight]' = 'Medium'))
+       LABEL
+         COLOR 63 143 54
+         OUTLINECOLOR 255 255 255
+         SIZE 25
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+   CLASS
+       NAME "Woodland Or Forest Font large"
+       EXPRESSION (('[classifica]' = 'Woodland Or Forest') AND ('[fontheight]' = 'Large'))
+       LABEL
+         COLOR 63 143 54
+         OUTLINECOLOR 255 255 255
+         SIZE 28
+         TYPE TRUETYPE
+         FONT "arialbi"
+         SHADOWSIZE 1 1
+         BUFFER 4
+         PARTIALS FALSE
+         ANGLE [orientatio]
+         WRAP ' '
+         ALIGN center
+       END
+   END
+
+END

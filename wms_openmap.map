@@ -1,0 +1,63 @@
+MAP
+  
+  #IMPORTANT PATHS
+  CONFIG "PROJ_LIB" "./"
+  FONTSET "./resources/fonts/fonts.list"
+  
+  SYMBOL
+    NAME "sld_mark_symbol_circle_filled"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+      1 1
+    END
+  END
+ 
+  EXTENT -3276800 -3276800 3276800 3276800
+  NAME "WMS_OPENMAP"
+  STATUS ON
+
+  IMAGETYPE "image/png"
+  SIZE 400 400
+  UNITS METERS
+
+  #This formats the background color of the image to blue and hence sets the water color
+  IMAGECOLOR 217 234 238
+
+  OUTPUTFORMAT
+    NAME "png"
+    MIMETYPE "image/png"
+    DRIVER "AGG/PNG"
+    EXTENSION "png"
+    IMAGEMODE RGBA
+    TRANSPARENT ON
+    FORMATOPTION "INTERLACE=OFF"
+    FORMATOPTION "QUANTIZE_FORCE=on"
+    FORMATOPTION "QUANTIZE_COLORS=256"
+    FORMATOPTION "COMPRESSION=9"
+  END # OUTPUTFORMAT
+
+
+
+  PROJECTION
+    "init=epsg:27700"
+  END 
+
+
+  WEB
+    IMAGEPATH "./tmp/"
+    IMAGEURL "/tmp/"
+    METADATA
+      "wms_srs" "EPSG:27700"
+      "wms_enable_request"  "*"
+      "WMS_TITLE" "WMS OPENMAP"
+      "labelcache_map_edge_buffer" "-10"
+    END 
+  END 
+
+  INCLUDE "layers/layers_vector_openmap.layers"
+
+  CONFIG "MS_ERRORFILE" "/tmp/wms_openmap.log"
+  DEBUG 1
+
+END # MAP
