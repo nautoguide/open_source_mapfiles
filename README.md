@@ -1,6 +1,6 @@
 # Open Source Mapfiles
 
-This repository contains map files released by Nautoguide Ltd. under the GPL. We intend to provide a full vector stack for Ordnance Survey Opendata. The first release is a *beta version* of a render for full colour OS Openmap using mapserver
+This repository contains map files released by Nautoguide Ltd. under the GPL. We intend to provide a full vector stack for Ordnance Survey Opendata. The first release is a *beta version* of a render for full colour and background colour OS Openmap using mapserver
 
 ##Openmap vector mapfile
 
@@ -32,7 +32,6 @@ The following issues are known:-
 * some colours are listed as RGB others as hex, we will go back through the file and make these consistent RGB shortly
 * the roundabout query is repeated in order to ensure the rendering order is correct. At the moment we do not know a way around this but would welcome ideas
 * edge clipping will occur for buffered geometries. The solution for this is to render via  a cache such as mapserver
-* background style render not completed, on our to-do list (after learning Portugese)
 
 We loaded our data into POSTGIS two stages:-
 
