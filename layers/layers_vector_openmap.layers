@@ -10,7 +10,7 @@
        "init=epsg:27700"
    END
    CONNECTION "host=localhost dbname=[YOUR DATABASE] user=[YOUR DATABASE USER] password=[YOUR_PASSWORD] port=5432"
-    CONNECTIONTYPE POSTGIS
+   CONNECTIONTYPE POSTGIS
    DATA "wkb_geometry from (SELECT wkb_geometry,ogc_fid FROM mapping_os_opendata_vector_district.land)  AS FOO USING UNIQUE ogc_fid using srid=27700"
    CLASS
        MAXSCALEDENOM 10000

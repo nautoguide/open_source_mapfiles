@@ -26,6 +26,9 @@ The following issues are known:-
 
 * missing symbols for a number of the railway station types, we currently only implement two
 * some fonts and colours may differ from the OS style sheets
+* the road rendering order is not perfect we see the occassional minor road overlap which we are investigating
+* the motorway junction labels are not as styled by OS. This is because the GEOMTRANSFORM 'labelpoly' only puts a single point border around the text. We are looking into a better solution
+* some colours are listed as RGB others as hex, we will go back through the file and make these consistent RGB shortly
 * the roundabout query is repeated in order to ensure the rendering order is correct. At the moment we do not know a way around this but would welcome ideas
 * edge clipping will occur for buffered geometries. The solution for this is to render via  a cache such as mapserver
 * background style render not completed, on our to-do list (after learning Portugese)
@@ -41,8 +44,9 @@ We loaded our data into POSTGIS two stages:-
 
     ogr2ogr -f PostgreSQL  -skipfailures -fieldTypeToString ALL -nlt geometry -progress PG:"dbname=[YOUR DATABASE] user=[YOUR UJSER] password=[YOUR PASSWORD] host=l[YOUR HOST]" --config PG_USE_COPY YES -overwrite -nln [SCHEMA.TABLENAME] [SHAPEFILENAME].shp
 
-Ths can be done in a single stage but we like to check the combined file first in QGIS
+Ths can be done in a single stage but we like to check the combined file first in QGIS as it can be tricky to recover from a partial loading problem with multiple shapefiles. 
 
 Hope you find this useful, let us know your thoughts, feedback or ideas
 
+dave@nautoguide.com
 Nautoguide Ltd.
