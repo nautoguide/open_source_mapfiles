@@ -12,6 +12,31 @@ MAP
       1 1
     END
   END
+
+  SYMBOL
+  NAME "x-poly-fill"
+  TYPE vector
+  FILLED true
+  POINTS
+    0     1.131
+    0     0
+    1.131 0
+    4.566 3.434
+    8     0
+    9.131 0
+    9.131 1.131
+    5.697 4.566
+    9.131 8
+    9.131 9.131
+    8     9.131
+    4.566 5.697
+    1.131 9.131
+    0     9.131
+    0     8
+    3.434 4.566
+    0     1.131
+  END 
+ END 
  
   EXTENT -3276800 -3276800 3276800 3276800
   NAME "WMS_OPENMAP"
@@ -56,6 +81,7 @@ MAP
   END 
 
   INCLUDE "layers/layers_vector_openmap.layers"
+  INCLUDE "layers/layers_vector_openmap_background.layers"
 
   CONFIG "MS_ERRORFILE" "/tmp/wms_openmap.log"
   DEBUG 1
